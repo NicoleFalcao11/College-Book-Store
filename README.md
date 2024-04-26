@@ -3,7 +3,11 @@
 
 
 Features of Website
+
 -Seniors can sell/buy books or other stationary/Notes
+
 -Juniors can buy/sell books or other academic stuff
+
 -JWT Based Authentication
+
 -Email Based Notification System 
