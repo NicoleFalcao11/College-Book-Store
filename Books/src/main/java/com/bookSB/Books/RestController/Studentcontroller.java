@@ -101,13 +101,18 @@ public class Studentcontroller{
 		
 	}
 	
-	@PostMapping("/notify/{rollno}/{id}/{email}")
-	public String notify(@PathVariable Long rollno ,@PathVariable Long id,@PathVariable String email) {
+	@PostMapping("/notify/{rollno}/{id}/{email}/{sellId}")
+	public String notify(@PathVariable Long rollno ,@PathVariable Long id,@PathVariable String email , @PathVariable Long sellId) {
 		System.out.println("\nIn Controller "+email);
 		SignupRequest buy = s.getStudentById(rollno);
         Book b = Bk.getBookById(id);
-        br.setAvailToFalse(id);
-        return s.notifySeller(email,b.getBkname() , buy );
+        //br.setAvailToFalse(id);
+        return s.notifySeller(email,b.getBkname() , buy ,sellId);
+	}
+	
+	@GetMapping("/rejected/{sellerId}/{email}/{bkname}")
+	public String reject(@PathVariable Long sellerId , @PathVariable String email , @PathVariable String bkname) {
+		return s.reject(sellerId , email ,bkname);
 	}
 	
 }

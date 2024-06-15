@@ -9,8 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+//For RazorPlay
 @Entity
-@Table(name = "Transactions")
+@Table(name = "Buyer_Seller")
 public class Buyer_Seller {
 	
 	@Id

@@ -43,6 +43,9 @@ public class Student {
 	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "upiid")
+	private String upiid;
+	
 	@Column(name = "otp")
 	private String otp;
 	
@@ -60,7 +63,7 @@ public class Student {
 	}
 
 	public Student(Long rollNo, String name, String department, String year, String division, String password,
-			String mobNo, String email,String otp, boolean verified , List<Role> role, List<Book> books) {
+			String mobNo, String email,String upiid ,String otp, boolean verified , List<Role> role, List<Book> books) {
 		super();
 		RollNo = rollNo;
 		Name = name;
@@ -70,6 +73,7 @@ public class Student {
 		Password = password;
 		MobNo = mobNo;
 		this.email = email;
+		this.upiid = upiid;
 		this.otp = otp;
 		this.verified = verified;
 		this.role = role;
@@ -140,6 +144,14 @@ public class Student {
 		this.email = email;
 	}
 	
+	public String getUpiid() {
+		return this.upiid;
+	}
+
+	public void setUpiid(String upiid) {
+		this.upiid = upiid;
+	}
+	
 	public String getOtp() {
 		return otp;
 	}
@@ -176,7 +188,7 @@ public class Student {
 	public String toString() {
 		return "Student [RollNo=" + RollNo + ", Name=" + Name + ", Department=" + Department + ", Year=" + Year
 				+ ", Division=" + Division + ", Password=" + Password + ", MobNo=" + MobNo + ", email=" + email
-				+", otp=" + otp + ", verified=" + verified + ", roles=" + role + ", books=" + books + "]";
+				+", upiid=" + upiid + " ,otp=" + otp + ", verified=" + verified + ", roles=" + role + ", books=" + books + "]";
 	}
 	
     

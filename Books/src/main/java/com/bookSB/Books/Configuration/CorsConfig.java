@@ -11,7 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://localhost:3000" , "https://main.da9b5grihc737.amplifyapp.com" , "http://bookstorebucket.s3-website.ap-south-1.amazonaws.com") 
+            .allowedOrigins("http://localhost:3000") 
             .allowedMethods("OPTIONS" ,"GET", "POST", "PUT", "DELETE")
             .allowedHeaders("Authorization", "Content-Type", "Access-Control-Allow-Origin")
             .allowedHeaders("*");

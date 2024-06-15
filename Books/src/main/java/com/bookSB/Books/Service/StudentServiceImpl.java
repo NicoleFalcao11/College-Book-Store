@@ -22,6 +22,7 @@ import com.bookSB.Books.Repository.BuySellRepository;
 import com.bookSB.Books.Repository.CartRepo;
 import com.bookSB.Books.Repository.RoleRepository;
 import com.bookSB.Books.Repository.StudentRepository;
+import com.bookSB.Books.Repository.TransactRepo;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -31,16 +32,19 @@ public class StudentServiceImpl implements StudentService{
 	private RoleRepository rrepo;
 	private final PasswordEncoder passwordEncoder;
 	private final BuySellRepository bs;
+	
+	private final TransactRepo tr;
 	private final BookRepository b;
 	private final CartRepo cRepo;
 	
 	@Autowired
-	public StudentServiceImpl(StudentRepository srepo , EmailService emailService , RoleRepository rrepo, PasswordEncoder passwordEncoder , BuySellRepository bs , BookRepository b, CartRepo cRepo) {
+	public StudentServiceImpl(StudentRepository srepo , EmailService emailService , RoleRepository rrepo, PasswordEncoder passwordEncoder , BuySellRepository bs , BookRepository b, CartRepo cRepo, TransactRepo tr) {
 		this.srepo = srepo;
 		this.emailService = emailService;
 		this.rrepo = rrepo;
 		this.passwordEncoder = passwordEncoder;
 		this.bs = bs;
+		this.tr = tr;
 		this.b = b;
 		this.cRepo = cRepo;
 	}
@@ -119,11 +123,11 @@ public class StudentServiceImpl implements StudentService{
         emailService.sendEmail(email,subject,body);
     }
 	
-	private void sendNotificationEmail(String email, String bkname , SignupRequest s){
+	private void sendNotificationEmail(String email, String bkname , SignupRequest s , Long seller){
         String subject = "Book Buyer Interest Notification Email";
-        String body ="Hello from The BookStore\nYou have a new Buyer ,"+s.getName()+" interested in Buying Your Book "+bkname+"\nThe Buyer is from "+s.getDepartment()+" Department"
+        String body ="Hello from The BookStore"+"\n"+"You have a new Buyer ,"+s.getName()+" interested in Buying Your Book "+bkname+"\nThe Buyer is from "+s.getDepartment()+" Department"
         		+ " Division "+s.getDivision()+" Year and Semester "+s.getYear()+"\nPlease Accept or Reject This Email to start a Chat with the Buyer or Dismiss the Request";
-        emailService.sendMail(email,subject,body);
+        emailService.sendMail(email,subject,body , seller , bkname , s.getEmail());
     }
 
 	@Override
@@ -186,22 +190,22 @@ public class StudentServiceImpl implements StudentService{
 	//Books On Sell but not Sold
 	@Override
 	public List<Book> getBookBySellerId(Long sid) {
-		List <Long> bookIds = bs.findBooksSoldIdByseller(sid);
+		List <Long> bookIds = tr.findBooksSoldIdByseller(sid);
 		System.out.println(b.findAllById(bookIds));
 		return b.findAllById(bookIds);
 	}
 	
-	//Books Sold
-	@Override
-	public List<Book> getBooksSold(Long sid) {
-		List <Long> bookIds = bs.findBooksSoldIdByseller(sid);
-		return b.findAllById(bookIds);
-		
-	}
+//	//Books Sold
+//	@Override
+//	public List<Book> getBooksSold(Long sid) {
+//		List <Long> bookIds = tr.findBooksSoldIdByseller(sid);
+//		return b.findAllById(bookIds);
+//		
+//	}
 
 	@Override
 	public List<Book> getBookByBuyerId(Long sid) {
-		List <Long> bookIds = bs.findBookIdBybuyId(sid);
+		List <Long> bookIds = tr.findBookIdBybuyId(sid);
 		
 		return b.findAllById(bookIds);
 		
@@ -240,11 +244,18 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public String notifySeller(String email , String bkname , SignupRequest buyer) {
+	public String notifySeller(String email , String bkname , SignupRequest buyer , Long seller) {
 		// TODO Auto-generated method stub
-		sendNotificationEmail(email, bkname, buyer);
-		
+		sendNotificationEmail(email, bkname, buyer , seller);
 		return "Seller Notified";
+	}
+
+	@Override
+	public String reject(Long seller, String email ,String bkname) {
+		// TODO Auto-generated method stub
+		
+		emailService.reject(email , bkname , seller);
+		return "Rejection Mail Send to Buyer";
 	}
 
 

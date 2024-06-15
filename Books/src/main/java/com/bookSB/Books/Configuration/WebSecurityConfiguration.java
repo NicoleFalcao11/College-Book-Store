@@ -38,10 +38,11 @@ public class WebSecurityConfiguration {
                 authorizeHttpRequests
 //               .anyRequest()
 //               .permitAll()
-              .requestMatchers("/signup" ,"/login" ,"/verify" ,"/payment/**").permitAll()
+              .requestMatchers("/signup" ,"/login" ,"/verify" ,"/payment/**" , "/student/rejected/**").permitAll()
               .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
               //.requestMatchers("/bookstore/books").hasRole("ADMIN")
               .requestMatchers("/student/**").authenticated()
+              .requestMatchers("/student/notify/**").authenticated()
               .requestMatchers("/bookstore/**").authenticated()
         );
 		http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

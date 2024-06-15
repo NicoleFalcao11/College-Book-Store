@@ -20,12 +20,13 @@ public interface StudentService {
 	
 	List<Book> getBookBySellerId(Long sid);
     List <Book> getBookByBuyerId(Long bid);
-    List<Book> getBooksSold(Long sid);
+    //List<Book> getBooksSold(Long sid);
     List<Book> getRecentBooks();
     
     List<Book> getCartItems(Long rollno);
     void addCartItem(Long rollno,Long bkid);
     String deleteCartItem(Long rollno , Long bkid);
     
-    String notifySeller(String email , String bkname , SignupRequest buyer);
+    String notifySeller(String email , String bkname , SignupRequest buyer , Long seller);
+    String reject(Long seller ,String email, String bkname);
 }
